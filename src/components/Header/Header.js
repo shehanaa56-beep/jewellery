@@ -12,7 +12,7 @@ const Header = ({ onCartClick, onLoginClick, cartCount, searchTerm, onSearchChan
           <AiOutlineSearch className="search-icon" />
           <input
             type="text"
-            placeholder="Search for flavors or cones..."
+            placeholder="Search for watchess or jeweleries..."
             className="search-input"
             value={searchTerm}
             onChange={(e) => onSearchChange(e.target.value)}

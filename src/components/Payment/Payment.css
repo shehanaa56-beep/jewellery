@@ -1,0 +1,144 @@
+.payment-page {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #fefcef;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.payment-page h1 {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #2c3e50;
+}
+
+.order-summary {
+  margin-bottom: 30px;
+  padding: 15px;
+  background-color: white;
+  border-radius: 4px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.order-summary h2 {
+  margin-bottom: 10px;
+  color: #555;
+}
+
+.summary-item {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 5px;
+}
+
+.summary-total {
+  border-top: 1px solid #ddd;
+  padding-top: 10px;
+  margin-top: 10px;
+  text-align: right;
+}
+
+.payment-options {
+  margin-bottom: 30px;
+}
+
+.payment-options h2 {
+  margin-bottom: 15px;
+  color: #555;
+}
+
+.payment-option {
+  margin-bottom: 15px;
+}
+
+.payment-option input {
+  margin-right: 10px;
+}
+
+.payment-option label {
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.upi-details {
+  margin-top: 10px;
+  padding: 10px;
+  background-color: #e9ecef;
+  border-radius: 4px;
+}
+
+.upi-details p {
+  margin: 5px 0;
+  color: #495057;
+}
+
+.qr-code-container {
+  text-align: center;
+  margin: 15px 0;
+}
+
+.qr-code-container p {
+  margin-top: 10px;
+  font-size: 14px;
+  color: #6c757d;
+}
+
+.payment-done-btn {
+  background-color: #28a745;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 4px;
+  font-size: 16px;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+.payment-done-btn:hover {
+  background-color: #218838;
+}
+
+.payment-success {
+  margin-top: 15px;
+  padding: 10px;
+  background-color: #d4edda;
+  border: 1px solid #c3e6cb;
+  border-radius: 4px;
+  color: #155724;
+}
+
+.payment-success p {
+  margin: 0;
+  font-weight: bold;
+}
+
+.detecting-payment {
+  margin-top: 10px;
+  padding: 8px;
+  background-color: #fff3cd;
+  border: 1px solid #ffeaa7;
+  border-radius: 4px;
+  text-align: center;
+}
+
+.detecting-payment p {
+  margin: 0;
+  color: #856404;
+  font-weight: bold;
+}
+
+.pay-btn {
+  width: 100%;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 12px;
+  border-radius: 4px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.pay-btn:hover {
+  background-color: #0056b3;
+}

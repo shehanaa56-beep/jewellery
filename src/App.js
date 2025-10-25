@@ -7,12 +7,19 @@ import HomePage from "./components/HomePage/HomePage";
 import MainContent from "./components/MainContent/MainContent";
 import ProductsList from "./components/ProductsList/ProductsList";
 import Login from "./components/Login/Login";
+import Address from "./components/Address/Address";
+import Payment from "./components/Payment/Payment";
+import OrderHistory from "./components/OrderHistory/OrderHistory";
 import Footer from "./components/Footer/Footer";
 import "./App.css";
 
 function App() {
   const [currentView, setCurrentView] = useState("home");
   const [activeTab, setActiveTab] = useState("home");
+  const [loggedInUser, setLoggedInUser] = useState(() => {
+    const savedUser = localStorage.getItem('loggedInUser');
+    return savedUser ? JSON.parse(savedUser) : null;
+  });
   const [cartItems, setCartItems] = useState(() => {
     const savedCart = localStorage.getItem('cartItems');
     return savedCart ? JSON.parse(savedCart) : [];
@@ -76,6 +83,8 @@ function App() {
       setActiveTab("settings");
     } else {
       // Regular user login does not grant admin access
+      setLoggedInUser(userData);
+      localStorage.setItem('loggedInUser', JSON.stringify(userData));
       closeLogin();
       // Stay on home view after user login
     }
@@ -88,13 +97,21 @@ function App() {
     } else if (tabId === "cart") {
       setIsCartOpen(true);
     } else if (tabId === "orders") {
-      // Handle orders view if implemented
-      setCurrentView("home"); // Placeholder
+      setCurrentView("orderHistory");
     } else if (tabId === "favorites") {
       setCurrentView("favorites");
     } else if (tabId === "settings") {
       setCurrentView("admin");
     }
+  };
+
+  const handleCheckout = () => {
+    if (!loggedInUser) {
+      openLogin();
+      return;
+    }
+    setIsCartOpen(false);
+    setCurrentView("address");
   };
 
   const renderCurrentView = () => {
@@ -118,6 +135,12 @@ function App() {
             />
           </div>
         );
+      case "address":
+        return <Address onProceed={() => setCurrentView("payment")} />;
+      case "payment":
+        return <Payment onSuccess={() => setCurrentView("orderHistory")} cartItems={cartItems} loggedInUser={loggedInUser} setCartItems={setCartItems} />;
+      case "orderHistory":
+        return <OrderHistory loggedInUser={loggedInUser} />;
       case "home":
       default:
         return (
@@ -160,6 +183,7 @@ function App() {
         onClose={closeCart}
         cartItems={cartItems}
         setCartItems={setCartItems}
+        onCheckout={handleCheckout}
       />
 
       <Login

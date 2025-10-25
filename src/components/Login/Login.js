@@ -2,9 +2,12 @@ import React, { useState } from 'react';
 import './Login.css';
 
 const Login = ({ isOpen, onClose, onLogin }) => {
+  const [isRegister, setIsRegister] = useState(false);
   const [formData, setFormData] = useState({
     username: '',
-    password: ''
+    password: '',
+    email: '',
+    confirmPassword: ''
   });
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
@@ -24,29 +27,68 @@ const Login = ({ isOpen, onClose, onLogin }) => {
     setIsLoading(true);
     setError('');
 
-    // Check for admin credentials
-    if (formData.username === "shehanaa@gmail.com" && formData.password === "2244") {
-      // Admin login
-      onLogin({
+    if (isRegister) {
+      // Registration logic
+      if (formData.password !== formData.confirmPassword) {
+        setError('Passwords do not match');
+        setIsLoading(false);
+        return;
+      }
+      if (!formData.email || !formData.username || !formData.password) {
+        setError('Please fill all fields');
+        setIsLoading(false);
+        return;
+      }
+
+      // Check if user already exists
+      const existingUsers = JSON.parse(localStorage.getItem('users')) || [];
+      if (existingUsers.find(user => user.username === formData.username || user.email === formData.email)) {
+        setError('User already exists');
+        setIsLoading(false);
+        return;
+      }
+
+      // Register new user
+      const newUser = {
+        id: Date.now(),
         username: formData.username,
-        isAdmin: true,
+        email: formData.email,
+        password: formData.password, // In real app, hash this
+        isAdmin: false,
+        registrationTime: new Date().toISOString()
+      };
+      existingUsers.push(newUser);
+      localStorage.setItem('users', JSON.stringify(existingUsers));
+
+      onLogin({
+        ...newUser,
         loginTime: new Date().toISOString()
       });
+      setIsLoading(false);
     } else {
-      // Regular user login
-      setTimeout(() => {
-        if (formData.username && formData.password) {
-          // Simulate successful login
+      // Login logic
+      // Check for admin credentials
+      if (formData.username === "shehanaa@gmail.com" && formData.password === "2244") {
+        // Admin login
+        onLogin({
+          username: formData.username,
+          isAdmin: true,
+          loginTime: new Date().toISOString()
+        });
+      } else {
+        // Regular user login
+        const users = JSON.parse(localStorage.getItem('users')) || [];
+        const user = users.find(u => u.username === formData.username && u.password === formData.password);
+        if (user) {
           onLogin({
-            username: formData.username,
-            isAdmin: false,
+            ...user,
             loginTime: new Date().toISOString()
           });
         } else {
-          setError('Please enter both username and password');
+          setError('Invalid username or password');
         }
-        setIsLoading(false);
-      }, 1000);
+      }
+      setIsLoading(false);
     }
   };
 
@@ -62,7 +104,7 @@ const Login = ({ isOpen, onClose, onLogin }) => {
     <div className="login-overlay" onClick={handleBackdropClick}>
       <div className="login-modal">
         <div className="login-header">
-          <h2>Log in to your account</h2>
+          <h2>{isRegister ? 'Create an account' : 'Log in to your account'}</h2>
           <button className="close-btn" onClick={onClose}>×</button>
         </div>
 
@@ -80,6 +122,37 @@ const Login = ({ isOpen, onClose, onLogin }) => {
               autoComplete="username"
             />
           </div>
+
+          {isRegister && (
+            <>
+              <div className="form-group">
+                <label htmlFor="email">Email</label>
+                <input
+                  type="email"
+                  id="email"
+                  name="email"
+                  value={formData.email}
+                  onChange={handleInputChange}
+                  placeholder="Enter your email"
+                  required
+                  autoComplete="email"
+                />
+              </div>
+              <div className="form-group">
+                <label htmlFor="confirmPassword">Confirm Password</label>
+                <input
+                  type="password"
+                  id="confirmPassword"
+                  name="confirmPassword"
+                  value={formData.confirmPassword}
+                  onChange={handleInputChange}
+                  placeholder="Confirm your password"
+                  required
+                  autoComplete="new-password"
+                />
+              </div>
+            </>
+          )}
 
           <div className="form-group">
             <label htmlFor="password">Password</label>
@@ -117,7 +190,25 @@ const Login = ({ isOpen, onClose, onLogin }) => {
         </form>
 
         <div className="login-footer">
-          <p>Don't have an account? <button className="signup-link">Sign up</button></p>
+          <p>
+            {isRegister ? 'Already have an account?' : "Don't have an account?"}{' '}
+            <button
+              type="button"
+              className="signup-link"
+              onClick={() => {
+                setIsRegister(!isRegister);
+                setError('');
+                setFormData({
+                  username: '',
+                  password: '',
+                  email: '',
+                  confirmPassword: ''
+                });
+              }}
+            >
+              {isRegister ? 'Log in' : 'Sign up'}
+            </button>
+          </p>
         </div>
       </div>
     </div>

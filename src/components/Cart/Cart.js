@@ -1,7 +1,7 @@
 import React from "react";
 import "./Cart.css";
 
-const Cart = ({ isOpen, onClose, cartItems, setCartItems }) => {
+const Cart = ({ isOpen, onClose, cartItems, setCartItems, onCheckout }) => {
   const handleRemove = (id) => {
     setCartItems((prev) => prev.filter((item) => item.id !== id));
   };
@@ -60,7 +60,7 @@ const Cart = ({ isOpen, onClose, cartItems, setCartItems }) => {
                 .reduce((sum, item) => sum + item.price * item.quantity, 0)
                 .toFixed(2)}
             </p>
-            <button className="checkout-btn">Checkout</button>
+            <button className="checkout-btn" onClick={onCheckout}>Checkout</button>
           </div>
         )}
       </div>
