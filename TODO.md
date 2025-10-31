@@ -1,8 +1,5 @@
-# TODO: Update Payment, OrderHistory, and Address Pages with Color Theme
+# TODO: Update PWA Home Screen Icon to favicon.png
 
-- [x] Update Payment.css: Change .payment-page background-color to #fefcef
-- [x] Update OrderHistory.css: Change .order-history-page background-color to #fefcef
-- [x] Adjust text colors in Payment.css for better contrast on light background
-- [x] Adjust text colors in OrderHistory.css for better contrast on light background
-- [x] Update Address.css: Change .address-page background-color to #fefcef
-- [x] Adjust text colors in Address.css for better contrast on light background
+- [x] Edit public/manifest.json to change the src for 192x192 and 512x512 icons to "favicon.png"
+- [ ] Redeploy the app to Vercel to apply changes
+- [ ] Test the home screen installation icon on mobile to verify it uses favicon.png
